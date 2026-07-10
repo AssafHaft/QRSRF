@@ -55,7 +55,14 @@ Open http://localhost:3000/admin (any username, the password you set).
 
 The app is a single Node process with a SQLite file — it needs a host with a **persistent disk**:
 
-- **Fly.io** — small VM + 1 GB volume fits the free-allowance tier. Set `DATA_DIR=/data` and mount a volume there.
+- **Fly.io** — small VM + 1 GB volume; a `Dockerfile` and `fly.toml` are included. Steps:
+  ```
+  fly launch --no-deploy          # keep the existing fly.toml when asked
+  fly secrets set ADMIN_PASSWORD=... BASE_URL=https://<your-app>.fly.dev
+  fly volumes create qrsrf_data --region <your-region> --count 1
+  fly deploy --ha=false
+  ```
+  Always deploy with `--ha=false`: SQLite lives on a single volume, so the app must run as exactly one machine — two machines would each get their own database.
 - **Railway** — hobby plan (~$5/mo) with a volume.
 - **Any VPS** (Hetzner/Lightsail, ~$4/mo) — `node server.js` behind Caddy/nginx for HTTPS.
 
