@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QRSRF — One-time QR codes</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header>
+    <h1>QRSRF <span>one-time QR codes</span></h1>
+  </header>
+
+  <main>
+    <section class="panel" id="create-panel">
+      <h2>New batch</h2>
+      <form id="create-form">
+        <label>Batch label <span class="req">*</span>
+          <input name="label" required placeholder="e.g. Summer promo — free coffee">
+        </label>
+        <label>Benefit shown to customer
+          <input name="benefit" placeholder="e.g. One free coffee ☕">
+        </label>
+        <div class="row">
+          <label>Number of codes
+            <input name="count" type="number" min="1" max="10000" placeholder="10">
+          </label>
+          <label>Expires (optional)
+            <input name="expiresAt" type="datetime-local">
+          </label>
+        </div>
+        <label>Recipients (optional — one per line, <code>Name, email/phone</code>)
+          <textarea name="recipients" rows="4" placeholder="Dana Levi, dana@example.com&#10;Avi Cohen, 052-1234567"></textarea>
+        </label>
+        <p class="hint">If you paste recipients, one code is created per line (plus extras up to “Number of codes” if that is larger).</p>
+        <button type="submit">Generate codes</button>
+        <p id="create-error" class="error" hidden></p>
+      </form>
+    </section>
+
+    <section class="panel" id="batches-panel">
+      <h2>Batches</h2>
+      <div id="batch-list" class="batch-list"></div>
+    </section>
+
+    <section class="panel wide" id="codes-panel" hidden>
+      <div class="codes-header">
+        <h2 id="codes-title"></h2>
+        <div class="actions">
+          <a id="csv-link" class="btn secondary" href="#">Export CSV</a>
+          <a id="print-link" class="btn secondary" href="#" target="_blank">Print sheet</a>
+        </div>
+      </div>
+      <table id="codes-table">
+        <thead>
+          <tr>
+            <th>#</th><th>QR</th><th>Recipient</th><th>Contact</th>
+            <th>Status</th><th>Sent</th><th>Redeemed</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <div id="qr-modal" class="modal" hidden>
+    <div class="modal-box">
+      <img id="qr-img" alt="QR code">
+      <p id="qr-caption"></p>
+      <div class="row">
+        <button id="qr-copy" class="secondary">Copy link</button>
+        <a id="qr-download" class="btn secondary" download>Download PNG</a>
+        <button id="qr-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
