@@ -10,10 +10,27 @@ A small self-hosted web app that generates batches of unique QR codes, each rede
 
 ## Run locally
 
+PowerShell:
+
 ```powershell
 npm install
 $env:ADMIN_PASSWORD = "choose-a-password"   # protects /admin and /api
 npm start
+```
+
+Command Prompt (cmd.exe):
+
+```cmd
+npm install
+set ADMIN_PASSWORD=choose-a-password
+npm start
+```
+
+macOS / Linux:
+
+```bash
+npm install
+ADMIN_PASSWORD=choose-a-password npm start
 ```
 
 Open http://localhost:3000/admin (any username, the password you set).
