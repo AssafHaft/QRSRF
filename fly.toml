@@ -1,23 +1,23 @@
-# fly.toml app configuration file generated for qrsrf on 2026-07-10T16:20:25Z
-#
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
-#
+# Fly.io config — deploy with `fly launch` (keeps this file) then `fly deploy`.
+app = "qrsrf"
+primary_region = "fra"
 
-app = 'qrsrf'
-primary_region = 'iad'
+[env]
+  PORT = "3000"
+  DATA_DIR = "/data"
 
-[build]
+# Persistent volume for the SQLite database.
+[mounts]
+  source = "qrsrf_data"
+  destination = "/data"
 
 [http_service]
-  internal_port = 8080
+  internal_port = 3000
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = "stop"
   auto_start_machines = true
   min_machines_running = 0
-  processes = ['app']
 
 [[vm]]
-  memory = '1gb'
-  cpu_kind = 'shared'
-  cpus = 1
-  memory_mb = 256
+  size = "shared-cpu-1x"
+  memory = "256mb"
