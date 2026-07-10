@@ -4,6 +4,7 @@ import path from 'node:path';
 import * as db from './db.js';
 
 const app = express();
+app.set('trust proxy', true); // respect X-Forwarded-Proto behind Fly/hosting proxies
 const PORT = process.env.PORT || 3000;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
 
